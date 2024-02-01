@@ -90,7 +90,10 @@ SET(CMAKE_MODULE_PATH
 APPLY_DEFAULT_APPLE_CONFIGURATION()
 
 COMPUTE_PROJECT_ARGS(PROJECT_ARGS LANGUAGES CXX)
-PROJECT(${PROJECT_NAME} ${PROJECT_ARGS})
+
+# [Jeff - MAE Robotics] had to edit this line as it was causing too many problems.
+# removed ${PROJECT_ARGS}
+PROJECT(${PROJECT_NAME})
 
 # Default C++ version should be C++11
 CHECK_MINIMAL_CXX_STANDARD(11 ENFORCE)
