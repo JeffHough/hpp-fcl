@@ -175,13 +175,6 @@ add_library(${LIBRARY_NAME}
   ${${LIBRARY_NAME}_SOURCES}
 )
 
-target_include_directories(
-  ${LIBRARY_NAME}
-  PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
-)
-
 set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "\$ORIGIN")
 
 # IDE sources and headers sorting
@@ -209,25 +202,34 @@ IF(WIN32)
   )
 ENDIF(WIN32)
 
-if(HPP_FCL_HAS_QHULL)
-  target_compile_definitions(${LIBRARY_NAME} PRIVATE -DHPP_FCL_HAS_QHULL)
-  if (HPP_FCL_USE_SYSTEM_QHULL)
-    target_link_libraries(${LIBRARY_NAME} PRIVATE Qhull::qhull_r Qhull::qhullcpp)
-  else()
-    target_include_directories(${LIBRARY_NAME} SYSTEM PRIVATE
-      ${Qhull_r_INCLUDE_DIR} ${Qhullcpp_PREFIX})
-    target_link_libraries(${LIBRARY_NAME} PRIVATE "${Qhull_r_LIBRARY}")
-  endif()
-endif()
+# [Jeff] don't need to support this since we will never use.
+# if(HPP_FCL_HAS_QHULL)
+#   target_compile_definitions(${LIBRARY_NAME} PRIVATE -DHPP_FCL_HAS_QHULL)
+#   if (HPP_FCL_USE_SYSTEM_QHULL)
+#     target_link_libraries(${LIBRARY_NAME} PRIVATE Qhull::qhull_r Qhull::qhullcpp)
+#   else()
+#     target_include_directories(${LIBRARY_NAME} SYSTEM PRIVATE
+#       ${Qhull_r_INCLUDE_DIR} ${Qhullcpp_PREFIX})
+#     target_link_libraries(${LIBRARY_NAME} PRIVATE "${Qhull_r_LIBRARY}")
+#   endif()
+# endif()
 
 MODERNIZE_TARGET_LINK_LIBRARIES(${PROJECT_NAME} SCOPE PUBLIC
   TARGETS Eigen3::Eigen
   INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
 
-target_include_directories(${LIBRARY_NAME}
+# [Jeff] this seems wrong?
+# target_include_directories(${LIBRARY_NAME}
+#   PUBLIC
+#   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+#   )
+
+target_include_directories(
+  ${LIBRARY_NAME}
   PUBLIC
-  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-  )
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
 
 IF(octomap_FOUND)
   MODERNIZE_TARGET_LINK_LIBRARIES(${PROJECT_NAME} SCOPE PUBLIC
