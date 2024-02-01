@@ -231,6 +231,8 @@ target_include_directories(
   $<INSTALL_INTERFACE:include>
 )
 
+add_library(hpp-fcl::hpp-fcl ALIAS hpp-fcl)
+
 IF(octomap_FOUND)
   MODERNIZE_TARGET_LINK_LIBRARIES(${PROJECT_NAME} SCOPE PUBLIC
     TARGETS octomap
