@@ -324,6 +324,13 @@ configure_file(
   COPYONLY
 )
 
+# also put a copy in the src directory:
+configure_file(
+  ${CMAKE_CURRENT_BINARY_DIR}/include/${HEADER_DIR}/config.${PROJECT_CUSTOM_HEADER_EXTENSION}
+  ${CMAKE_HPP_FCL_HIGHEST_DIR}/include/hpp/fcl/config.${PROJECT_CUSTOM_HEADER_EXTENSION}
+  COPYONLY
+)
+
 IF (NOT HPP_FCL_BUILD_CORE_ONLY)
   # Install catkin package.xml
   INSTALL(FILES package.xml DESTINATION share/${PROJECT_NAME})
