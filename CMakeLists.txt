@@ -72,7 +72,7 @@ ELSE()
 ENDIF()
 
 # Check if the submodule cmake have been initialized
-IF(NOT EXISTS "${CMAKE_SOURCE_DIR}/cmake/base.cmake")
+IF(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cmake/base.cmake")
   MESSAGE(FATAL_ERROR "\nPlease run the following command first:\ngit submodule update --init\n")
 ENDIF()
 
@@ -83,7 +83,7 @@ include(cmake/ide.cmake)
 include(CMakeDependentOption)
 
 SET(CMAKE_MODULE_PATH
-  ${CMAKE_SOURCE_DIR}/cmake-modules/
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules/
   ${CMAKE_MODULE_PATH})
 
 # If needed, fix CMake policy for APPLE systems
@@ -157,7 +157,7 @@ if(HPP_FCL_HAS_QHULL)
     message(STATUS "Qhullcpp not found: it will be build from sources, if Qhull_r is found")
     file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/third-parties)
     execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
-      ${CMAKE_SOURCE_DIR}/third-parties/qhull/src/libqhullcpp
+      ${CMAKE_CURRENT_SOURCE_DIR}/third-parties/qhull/src/libqhullcpp
       ${CMAKE_CURRENT_BINARY_DIR}/third-parties/libqhullcpp
       )
     set(Qhullcpp_PREFIX ${CMAKE_BINARY_DIR}/third-parties)
