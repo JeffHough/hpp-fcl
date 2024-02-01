@@ -91,15 +91,7 @@ set(${LIBRARY_NAME}_SOURCES
   collision_func_matrix.cpp
   collision_utility.cpp
   hfield.cpp
-  )
-
-IF (NOT HPP_FCL_BUILD_CORE_ONLY)
-  LIST(APPEND ${LIBRARY_NAME}_SOURCES mesh_loader/assimp.cpp mesh_loader/loader.cpp)
-ENDIF()
-
-if(HPP_FCL_HAS_OCTOMAP)
-  list(APPEND ${LIBRARY_NAME}_SOURCES octree.cpp)
-endif(HPP_FCL_HAS_OCTOMAP)
+)
 
 if(HPP_FCL_HAS_QHULL AND NOT HPP_FCL_USE_SYSTEM_QHULL)
   set(
@@ -169,6 +161,7 @@ ENDFOREACH()
 LIST(APPEND PROJECT_HEADERS_FULL_PATH ${PROJECT_BINARY_DIR}/include/hpp/fcl/config.hh)
 LIST(APPEND PROJECT_HEADERS_FULL_PATH ${PROJECT_BINARY_DIR}/include/hpp/fcl/deprecated.hh)
 LIST(APPEND PROJECT_HEADERS_FULL_PATH ${PROJECT_BINARY_DIR}/include/hpp/fcl/warning.hh)
+
 add_library(${LIBRARY_NAME}
   ${HPP_FCL_BUILD_TYPE}
   ${PROJECT_HEADERS_FULL_PATH}
@@ -202,32 +195,15 @@ IF(WIN32)
   )
 ENDIF(WIN32)
 
-# [Jeff] don't need to support this since we will never use.
-# if(HPP_FCL_HAS_QHULL)
-#   target_compile_definitions(${LIBRARY_NAME} PRIVATE -DHPP_FCL_HAS_QHULL)
-#   if (HPP_FCL_USE_SYSTEM_QHULL)
-#     target_link_libraries(${LIBRARY_NAME} PRIVATE Qhull::qhull_r Qhull::qhullcpp)
-#   else()
-#     target_include_directories(${LIBRARY_NAME} SYSTEM PRIVATE
-#       ${Qhull_r_INCLUDE_DIR} ${Qhullcpp_PREFIX})
-#     target_link_libraries(${LIBRARY_NAME} PRIVATE "${Qhull_r_LIBRARY}")
-#   endif()
-# endif()
 
 MODERNIZE_TARGET_LINK_LIBRARIES(${PROJECT_NAME} SCOPE PUBLIC
   TARGETS Eigen3::Eigen
   INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
 
-# [Jeff] this seems wrong?
-# target_include_directories(${LIBRARY_NAME}
-#   PUBLIC
-#   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-#   )
-
 target_include_directories(
   ${LIBRARY_NAME}
   PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${CMAKE_HPP_FCL_HIGHEST_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
 

@@ -35,6 +35,8 @@
 cmake_minimum_required(VERSION 3.16)
 set(CXX_DISABLE_WERROR TRUE)
 
+set(CMAKE_HPP_FCL_HIGHEST_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
 set(PROJECT_NAME hpp-fcl)
 set(PROJECT_DESCRIPTION
   "HPP fork of FCL -- The Flexible Collision Library"
