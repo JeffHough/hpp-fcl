@@ -331,6 +331,9 @@ configure_file(
   COPYONLY
 )
 
+# install the include directory.
+install(DIRECTORY include/hpp DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
 IF (NOT HPP_FCL_BUILD_CORE_ONLY)
   # Install catkin package.xml
   INSTALL(FILES package.xml DESTINATION share/${PROJECT_NAME})
