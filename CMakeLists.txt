@@ -52,10 +52,10 @@ SET(DOXYGEN_USE_TEMPLATE_CSS TRUE)
 # Need to be set before including base.cmake
 # ----------------------------------------------------
 OPTION(INSTALL_DOCUMENTATION "Generate and install the documentation" OFF)
-OPTION(HPP_FCL_USE_OCTOMAP "Build hpp-fcl with octomap" ON)
-OPTION(HPP_FCL_BUILD_TESTS "Build the tests or not" ON)
-OPTION(HPP_FCL_BUILD_CORE_ONLY "Only build the core functionality of hpp-fcl (no mesh loaders, no ROS, no tests)" OFF)
-OPTION(HPP_FCL_BUILD_SHARED_LIBRARY "Build hpp-fcl as a shared library. Otherwise static." ON)
+OPTION(HPP_FCL_USE_OCTOMAP "Build hpp-fcl with octomap" OFF)
+OPTION(HPP_FCL_BUILD_TESTS "Build the tests or not" OFF)
+OPTION(HPP_FCL_BUILD_CORE_ONLY "Only build the core functionality of hpp-fcl (no mesh loaders, no ROS, no tests)" ON)
+OPTION(HPP_FCL_BUILD_SHARED_LIBRARY "Build hpp-fcl as a shared library. Otherwise static." OFF)
 
 IF (HPP_FCL_BUILD_CORE_ONLY)
   SET(INSTALL_DOCUMENTATION OFF)
@@ -98,7 +98,7 @@ PROJECT(${PROJECT_NAME})
 # Default C++ version should be C++11
 CHECK_MINIMAL_CXX_STANDARD(11 ENFORCE)
 
-OPTION(BUILD_PYTHON_INTERFACE "Build the python bindings" ON)
+OPTION(BUILD_PYTHON_INTERFACE "Build the python bindings" OFF)
 CMAKE_DEPENDENT_OPTION(GENERATE_PYTHON_STUBS "Generate the Python stubs associated to the Python library" OFF BUILD_PYTHON_INTERFACE OFF)
 
 #IF(WIN32)
