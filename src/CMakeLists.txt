@@ -173,7 +173,13 @@ add_library(${LIBRARY_NAME}
   ${HPP_FCL_BUILD_TYPE}
   ${PROJECT_HEADERS_FULL_PATH}
   ${${LIBRARY_NAME}_SOURCES}
-  )
+)
+
+target_include_directories(
+  ${LIBRARY_NAME}
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "\$ORIGIN")
 
