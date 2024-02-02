@@ -49,6 +49,9 @@ CMAKE_POLICY(SET CMP0022 NEW)
 SET(PROJECT_USE_KEYWORD_LINK_LIBRARIES TRUE)
 SET(DOXYGEN_USE_TEMPLATE_CSS TRUE)
 
+# use the -fPIe flag even though we are compiling a static library.
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 # ----------------------------------------------------
 # --- OPTIONS  ---------------------------------------
 # Need to be set before including base.cmake
