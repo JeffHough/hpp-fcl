@@ -297,7 +297,7 @@ macro(SETUP_PROJECT_FINALIZE)
   # Install data if needed
   _install_project_data()
 
-  logging_finalize()
+  # logging_finalize()
 endmacro(SETUP_PROJECT_FINALIZE)
 
 # .rst: .. ifmode:: user
