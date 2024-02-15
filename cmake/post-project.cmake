@@ -45,7 +45,7 @@ option(INSTALL_PKG_CONFIG_FILE "Generate and install standard .pc file" ON)
 include(CTest)
 enable_testing()
 
-logging_initialize()
+# logging_initialize()
 
 # FIXME: normalize naming to <MODULE>_SETUP()
 _setup_project_warnings()
