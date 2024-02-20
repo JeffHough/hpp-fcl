@@ -123,10 +123,6 @@ CMAKE_DEPENDENT_OPTION(GENERATE_PYTHON_STUBS "Generate the Python stubs associat
 
 ADD_PROJECT_DEPENDENCY(Eigen3 REQUIRED PKG_CONFIG_REQUIRES "eigen3 >= 3.0.0")
 
-if(BUILD_PYTHON_INTERFACE)
-  FIND_PACKAGE(eigenpy 2.7.10 REQUIRED)
-endif()
-
 # Required dependencies
 SET_BOOST_DEFAULT_OPTIONS()
 EXPORT_BOOST_DEFAULT_OPTIONS()
@@ -135,55 +131,6 @@ IF(WIN32)
 ELSE(WIN32)
   ADD_PROJECT_DEPENDENCY(Boost REQUIRED chrono serialization)
 ENDIF(WIN32)
-if(BUILD_PYTHON_INTERFACE)
-  find_package(Boost REQUIRED COMPONENTS system)
-endif(BUILD_PYTHON_INTERFACE)
-
-# Optional dependencies
-IF(HPP_FCL_USE_OCTOMAP)
-  ADD_PROJECT_DEPENDENCY(octomap PKG_CONFIG_REQUIRES "octomap >= 1.6")
-  if(octomap_FOUND)
-    SET(HPP_FCL_HAS_OCTOMAP TRUE)
-    string(REPLACE "." ";" VERSION_LIST ${octomap_VERSION})
-    list(GET VERSION_LIST 0 OCTOMAP_MAJOR_VERSION)
-    list(GET VERSION_LIST 1 OCTOMAP_MINOR_VERSION)
-    list(GET VERSION_LIST 2 OCTOMAP_PATCH_VERSION)
-    message(STATUS "FCL uses Octomap")
-  else()
-    SET(HPP_FCL_HAS_OCTOMAP FALSE)
-    message(STATUS "FCL does not use Octomap")
-  endif()
-ELSE()
-  SET(HPP_FCL_HAS_OCTOMAP FALSE)
-  message(STATUS "FCL does not use Octomap")
-ENDIF()
-
-option(HPP_FCL_HAS_QHULL "use qhull library to compute convex hulls." FALSE)
-if(HPP_FCL_HAS_QHULL)
-  find_package(Qhull COMPONENTS qhull_r qhullcpp)
-  if(Qhull_FOUND)
-    set(HPP_FCL_USE_SYSTEM_QHULL TRUE)
-  else()
-    message(STATUS "Qhullcpp not found: it will be build from sources, if Qhull_r is found")
-    file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/third-parties)
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
-      ${CMAKE_CURRENT_SOURCE_DIR}/third-parties/qhull/src/libqhullcpp
-      ${CMAKE_CURRENT_BINARY_DIR}/third-parties/libqhullcpp
-      )
-    set(Qhullcpp_PREFIX ${CMAKE_BINARY_DIR}/third-parties)
-    find_path(Qhull_r_INCLUDE_DIR
-      NAMES libqhull_r/libqhull_r.h
-      PATHS ${Qhull_PREFIX}
-      )
-    find_library(Qhull_r_LIBRARY
-      NAMES libqhull_r.so
-      PATHS ${Qhull_PREFIX}
-      )
-    if(NOT Qhull_r_LIBRARY)
-      message(FATAL_ERROR "Qhull_r not found, please install it or turn HPP_FCL_HAS_QHULL OFF")
-    endif()
-  endif()
-endif()
 
 SET(${PROJECT_NAME}_HEADERS
   include/hpp/fcl/collision_data.h
@@ -288,32 +235,9 @@ SET(${PROJECT_NAME}_HEADERS
   include/hpp/fcl/timings.h
   )
 
-IF(NOT HPP_FCL_BUILD_CORE_ONLY)
-  FIND_PACKAGE(assimp REQUIRED)
-  LIST(APPEND ${PROJECT_NAME}_HEADERS include/hpp/fcl/mesh_loader/assimp.h include/hpp/fcl/mesh_loader/loader.h)
-ENDIF()
-
-IF (INSTALL_DOCUMENTATION)
-  add_subdirectory(doc)
-ENDIF()
-
 add_subdirectory(src)
 
-if (BUILD_PYTHON_INTERFACE)
-  add_subdirectory(python)
-endif ()
-
-IF (HPP_FCL_BUILD_TESTS)
-  add_subdirectory(test)
-ENDIF()
-
 pkg_config_append_libs("hpp-fcl")
-IF(HPP_FCL_HAS_OCTOMAP)
-  # FCL_HAVE_OCTOMAP kept for backward compatibility reasons.
-  PKG_CONFIG_APPEND_CFLAGS(
-    "-DHPP_FCL_HAS_OCTOMAP -DHPP_FCL_HAVE_OCTOMAP -DFCL_HAVE_OCTOMAP -DOCTOMAP_MAJOR_VERSION=${OCTOMAP_MAJOR_VERSION} -DOCTOMAP_MINOR_VERSION=${OCTOMAP_MINOR_VERSION} -DOCTOMAP_PATCH_VERSION=${OCTOMAP_PATCH_VERSION}")
-ENDIF(HPP_FCL_HAS_OCTOMAP)
-
 
 # also put a copy in the src directory:
 configure_file(

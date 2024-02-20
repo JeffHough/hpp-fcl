@@ -3,3 +3,6 @@ Xcode/*
 *~
 *.pyc
 
+include/hpp/fcl/config.hh
+include/hpp/fcl/deprecated.hh
+include/hpp/fcl/warning.hh
