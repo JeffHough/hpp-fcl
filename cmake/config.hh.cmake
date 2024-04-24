@@ -33,8 +33,11 @@
 // is handled by the compiler, see: http://gcc.gnu.org/wiki/Visibility
 # if defined _WIN32 || defined __CYGWIN__
 // On Microsoft Windows, use dllimport and dllexport to tag symbols.
-#  define @LIBRARY_NAME@_DLLIMPORT __declspec(dllimport)
-#  define @LIBRARY_NAME@_DLLEXPORT __declspec(dllexport)
+// JEFF REMOVED THESE LINES:
+// __declspec(dllimport)
+// __declspec(dllexport)
+#  define @LIBRARY_NAME@_DLLIMPORT 
+#  define @LIBRARY_NAME@_DLLEXPORT 
 #  define @LIBRARY_NAME@_DLLLOCAL
 # else
 // On Linux, for GCC >= 4, tag symbols using GCC extension.

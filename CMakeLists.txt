@@ -54,6 +54,10 @@ SET(DOXYGEN_USE_TEMPLATE_CSS TRUE)
 # use the -fPIe flag even though we are compiling a static library.
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# # SHOULDN'T have any export, as this should be forced to be a static library...
+# add_compile_definitions(HPP_FCL_STATIC)
+# add_compile_definitions(HPP_FCL_DLLIMPORT)
+
 # ----------------------------------------------------
 # --- OPTIONS  ---------------------------------------
 # Need to be set before including base.cmake
