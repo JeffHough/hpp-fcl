@@ -322,7 +322,6 @@ void getSupportFuncTpl(const MinkowskiDiff& md, const Vec3f& dir,
   };
 #ifndef NDEBUG
   // According to later commits on hpp-fcl, these are not needed.
-
   // // Need normalized direction and direction is normalized
   // assert(!NeedNormalizedDir || !dirIsNormalized ||
   //        fabs(dir.squaredNorm() - 1) < 1e-6);
